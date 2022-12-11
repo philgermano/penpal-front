@@ -136,6 +136,7 @@ android {
 
     defaultConfig {
         applicationId "com.penpal"
+        manifestPlaceholders = [auth0Domain: "dev-hvpdkc2ulh3du54f.us.auth0.com", auth0Scheme: "${applicationId}"]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
