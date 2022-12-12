@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AUTH0_DOMAIN, AUTH0_CLIENT_ID } from '@env';
+import { AUTH0_DOMAIN, AUTH0_CLIENT_ID } from "@env";
 import SInfo from "react-native-sensitive-info";
 import Auth0 from "react-native-auth0";
 import DeviceInfo from "react-native-device-info";
@@ -9,8 +9,6 @@ const auth0 = new Auth0({
   domain: AUTH0_DOMAIN,
   clientId: AUTH0_CLIENT_ID,
 });
-
-
 
 const AuthContext = React.createContext();
 
@@ -81,7 +79,11 @@ const AuthContextProvider = (props) => {
     try {
       const credentials = await auth0.webAuth.authorize({
         scope: "openid offline_access profile email",
-      });
+      }, {
+        //ephemeral stops it storing session cookie. could try WebAuthentication.safariProvider instead of ASWebAuthenticationSession. doesn't allow SSO but might not be worth the hassle.
+        //https://github.com/auth0/Auth0.swift/blob/master/FAQ.md
+        ephemeralSession: DeviceInfo.getSystemName() === 'iOS' ? true : false 
+    });
 
       await SInfo.setItem("accessToken", credentials.accessToken, {});
       await SInfo.setItem("refreshToken", credentials.refreshToken, {});
@@ -94,8 +96,8 @@ const AuthContextProvider = (props) => {
 
   const logout = async () => {
     try {
-      await auth0.webAuth.clearSession({});
 
+      DeviceInfo.getSystemName() === 'Android' ? await auth0.webAuth.clearSession({ }) : console.log('nothing',  DeviceInfo.getSystemName());
       await SInfo.deleteItem("accessToken", {});
       await SInfo.deleteItem("refreshToken", {});
 
