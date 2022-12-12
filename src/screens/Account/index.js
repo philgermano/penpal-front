@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 function AccountScreen({navigation}) {
     const { logout, loggedIn, userData } = useContext(AuthContext);
 
+    const theme = useTheme();
 
     //redirect if not logged in
     useEffect(() => {
@@ -18,18 +19,43 @@ function AccountScreen({navigation}) {
     
 
     return (
-    <View>
+     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {userData && (
-        <View >
+        <View style={styles.userContainer}>
           <Avatar.Image size={100} source={{ uri: userData.picture }} />
-          <View>
+          <View style={styles.textContainer}>
             <Text>{userData.name}</Text>
           </View>
+          <Button style={styles.button} color='#F5DF68' mode="contained" onPress={() => logout()}>
+        Logout
+      </Button>
         </View>
+        
         )}
+        
          </View>
     )
 }
     
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingRight: 30,
+      paddingLeft: 30,
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    userContainer: {
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    textContainer: {
+      marginTop: 10
+    },
+    button:{
+      marginTop:15,
+    },
+  });
 
 export default AccountScreen;
