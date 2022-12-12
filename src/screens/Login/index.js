@@ -1,16 +1,30 @@
-import React, {useEffect, useContext} from 'react';
-import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
-import {StackActions} from '@react-navigation/native';
+import React, { useContext, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Button, useTheme } from "react-native-paper";
+import { StackActions } from "@react-navigation/native";
 
-import {AuthContext} from '../context/AuthContext';
-
-function LoginScreen({navigation}) {
+import { AuthContext } from "../../context/AuthContext";
 
 
+const LoginScreen = ({ navigation }) => {
+    const { loggedIn } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigation.dispatch(StackActions.replace("Account"));
+    }
+  }, [loggedIn]);
+
+  const { login } = useContext(AuthContext);
 
     return (
-        <Text>Login</Text>
-    )
+          <View >
+      <Button mode="contained" onPress={() => login()}>
+        Login with Auth0
+      </Button>
+    </View>
+  );
+
 
 }
     
