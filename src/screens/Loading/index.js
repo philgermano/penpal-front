@@ -2,7 +2,7 @@ import React, {useEffect, useContext} from 'react';
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import {StackActions} from '@react-navigation/native';
 
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../../context/AuthContext';
 
 function LoadingScreen({navigation}) {
     const {loading, loggedIn} = useContext(AuthContext);
